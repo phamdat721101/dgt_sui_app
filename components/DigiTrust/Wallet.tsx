@@ -17,7 +17,7 @@ interface Transaction {
 
 async function getTransactions(wallet: string) {
   const response = await axios.get(
-    "https://test-vercel-seven-ivory.vercel.app/v1/history?wallet=" + wallet
+    `https://test-vercel-seven-ivory.vercel.app/v1/history?wallet=${wallet}&chain=sui`
   );
   return response.data;
 }
