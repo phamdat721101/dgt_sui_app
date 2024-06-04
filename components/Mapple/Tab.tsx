@@ -28,7 +28,7 @@ const Tab = ({ color }: any) => {
                 href="#link1"
                 role="tablist"
               >
-                Gửi
+                Deposit
               </a>
             </li>
             <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
@@ -47,7 +47,7 @@ const Tab = ({ color }: any) => {
                 href="#link2"
                 role="tablist"
               >
-                Rút
+                Withdraw
               </a>
             </li>
             {/* <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">

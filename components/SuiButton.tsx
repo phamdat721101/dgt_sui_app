@@ -4,11 +4,13 @@ import Link from "next/link";
 
 function SuiButton() {
   const { currentAccount } = useWalletKit();
-  console.log("jldfjlasdjfklsdjkf", currentAccount?.address)
   return (
     <div>
       {currentAccount?.address ? (
-        <Link href={"/wallet/" + currentAccount?.address}  className="mr-2 hover:text-blue-400"> Lịch sử giao dịch</Link>
+        <div>
+          <Link href={"/wallet/0xx1231c1312"}  className="mr-2 hover:text-blue-400"> Lịch sử giao dịch</Link>
+          <Link href={"/profile/abc"}>Profile</Link>
+        </div>
       ):(<div></div>)}
     <ConnectButton
       connectText={"Kết nối ví SUI"}

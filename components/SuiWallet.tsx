@@ -5,7 +5,6 @@ import { TransactionBlock } from "@mysten/sui.js/transactions";
 import { useWalletKit } from "@mysten/wallet-kit";
 import DepositForm from "./DepositForm";
 
-
 const SuiWallet = () => {
   //const wallet = useWallet();
   //const { mutate: signTransactionBlock } = useSignTransactionBlock();
@@ -52,7 +51,7 @@ const SuiWallet = () => {
     //   +    transactionBlock: tx
     //     });
     await signAndExecuteTransactionBlock({
-      transactionBlock: txb,
+      transactionBlock: txb as any,
     });
     // signTransactionBlock({
     //   transactionBlock: txb,
@@ -65,13 +64,13 @@ const SuiWallet = () => {
     console.log(txb);
   }
 
-  const withdraw = async() => {
+  const withdraw = async () => {
     const txb = new TransactionBlock();
     const contractAddress =
       "0xe86865464e4030acefff7ec23be26d0d8a95a18f140113d73ea1c645080f5a3b";
     const contractModule = "vault";
     const contractMethod = "pay_to_beneficiary";
-   // const coin = txb.splitCoins(txb.gas, [100000]);
+    // const coin = txb.splitCoins(txb.gas, [100000]);
     txb.moveCall({
       target: `${contractAddress}::${contractModule}::${contractMethod}`,
       arguments: [
@@ -81,18 +80,16 @@ const SuiWallet = () => {
         txb.object(
           "0xc8694cc09f1c5a9f89cb06e213d81128ac5dc6e8d72e9efe60ea54e874bffde5"
         ),
-        txb.pure(100000)
-,
+        txb.pure(100000),
       ],
     });
 
-
     await signAndExecuteTransactionBlock({
-      transactionBlock: txb,
+      transactionBlock: txb as any,
     });
 
     console.log(txb);
-  }
+  };
 
   //const txb = new TransactionBlock();
 
@@ -130,7 +127,7 @@ const SuiWallet = () => {
     <div>
       <p onClick={withdraw}>withdraw</p>
       <div onClick={abc}>onclick(hand0</div>
-      <DepositForm/>
+      <DepositForm />
     </div>
   );
 };
