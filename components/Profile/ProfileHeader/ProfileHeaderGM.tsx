@@ -38,10 +38,13 @@ import { JwtPayload, jwtDecode } from "jwt-decode";
 import { fromB64 } from "@mysten/bcs";
 import axios from "axios";
 import Image from "next/image";
-import digitrustLogo from "@/assets/images/digitrust_white.png";
+import digitrustWhiteLogo from "@/assets/images/digitrust_white.png";
+import digitrustNoTextWhiteLogo from "@/assets/images/digitrust_white_notext.png";
+import digitrustLogo from "@/assets/images/digitrust.png";
+import digitrustNoTextLogo from "@/assets/images/digitrust_notext.png";
 import MenuIcon from "@/icons/MenuIcon";
 import ExitIcon from "@/icons/ExitIcon";
-import { scriptURLPost,scriptURLGet } from "@/constants/google";
+import { scriptURLPost, scriptURLGet } from "@/constants/google";
 import { setBalance } from "viem/actions";
 import ProfileIcon from "@/icons/ProfileIcon";
 import HistoryIcon from "@/icons/HistoryIcon";
@@ -77,33 +80,49 @@ const navLinks = [
   },
 ];
 
-async function generateAddress(account_id: number, address_id: number) {
+async function generateAddress(account_id: string, address_id: string) {
   const evmURL = `http://dgt-dev.vercel.app/v1/evm_adr?account_id=${account_id}&address_id=${address_id}`;
   const resEVM = await fetch(evmURL);
   const evmAddress = await resEVM.json();
 
-  return {evmAddress}
+  return { evmAddress };
 }
 
-async function generateAPTAddress(account_id: number) {
-
+async function generateAPTAddress(account_id: string) {
   const apturl = `https://dgt-dev.vercel.app/v1/apt_adr?account_id=${account_id}`;
   const resApt = await fetch(apturl);
   const aptAddress = await resApt.json();
 
-  return {aptAddress}
+  return { aptAddress };
 }
 
 async function getBalance(email: string) {
-
   const url = `https://dgt-dev.vercel.app/v1/user_balance?email=${email}`;
   const resApt = await fetch(url);
   const balance = await resApt.json();
 
-  return {balance}
+  return { balance };
 }
 
-export default function Header() {
+async function postData(url = "", data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: "follow", // manual, *follow, error
+    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
+
+export default function Header(props: { isHome: boolean }) {
   const { startOnborda } = useOnborda();
   const handleStartOnborda = () => {
     startOnborda();
@@ -136,31 +155,31 @@ export default function Header() {
 
   useEffect(() => {
     const getOauthParams = async () => {
+      let curEmail = window.localStorage.getItem("userEmail");
+      console.log(curEmail);
       const location = window.location.hash;
-      if (location != null && location != "") {
+      if (location != null && location != "" && (curEmail == '' || curEmail == null)) {
         const res = queryString.parse(location);
-        console.log(res);
-        setTimeout(() => {
-          setOauthParams(res);
-        }, 300);
-      } else {
-        setEmail(window.localStorage.getItem("userEmail") as string);
-        setZkLoginUserAddress(
-          window.localStorage.getItem("userAddress") as string
-        );
+        setOauthParams(res);
+      } 
+      else if (curEmail != '' && curEmail != null) 
+      {
+        let myToast = toast.loading("Loading...");
+        setEmail(curEmail!= null? curEmail:'');
+        const {balance}= await getBalance(curEmail);
+        setPoint(balance?.amount);
+        toast.dismiss(myToast);
       }
+      else
+        return;
     };
     getOauthParams();
   }, []);
 
   const logOutWallet = () => {
-    setZkLoginUserAddress("");
     setEmail("");
-    window.localStorage.setItem("userEmail", "");
-    window.localStorage.setItem("userAddress", "");
     window.location.hash = "";
   };
-
 
   const beginZkLogin = async () => {
     var myToast = toast.loading("Getting key pair...");
@@ -170,7 +189,6 @@ export default function Header() {
       ephemeralKeyPair.export().privateKey
     );
     setEphemeralKeyPair(ephemeralKeyPair);
-    console.log(ephemeralKeyPair);
 
     //Get epoch
     const { epoch } = await suiClient.getLatestSuiSystemState();
@@ -182,11 +200,9 @@ export default function Header() {
     );
     console.log(currentEpoch);
     setMaxEpoch(Number(epoch) + 10);
-    console.log("currentEpoch", currentEpoch);
 
     //Get randomness
     const randomness = generateRandomness();
-    console.log("randomness:", randomness);
 
     //Set Nonce
     const newNonce = generateNonce(
@@ -195,7 +211,6 @@ export default function Header() {
       randomness
     );
     setNonce(newNonce);
-    console.log(nonce);
 
     const params = new URLSearchParams({
       client_id: process.env.NEXT_PUBLIC_CLIENT_ID as string,
@@ -221,51 +236,42 @@ export default function Header() {
     }
   };
 
-
   useEffect(() => {
     const getUserAddress = async () => {
-      if (oauthParams && oauthParams?.id_token && email == '') {
+      if (oauthParams && oauthParams?.id_token && email == "") {
         const myToast = toast.loading("Loading your account...");
-        console.log("login google");
+
         const NewdecodedJwt = jwtDecode(oauthParams.id_token as string);
-        console.log("Decode token:", NewdecodedJwt);
-        console.log("Your email is ", NewdecodedJwt?.email);
-        //window.localStorage.setItem("userEmail", NewdecodedJwt?.email);
-        //setEmail(NewdecodedJwt?.email);
-        
-        
+
         const url = `${scriptURLGet}?email=${NewdecodedJwt?.email}`;
         const res = await fetch(url);
         const data = await res.json();
-        console.log(data);
-        if(data == null)
-        {
 
+        if (data == null) {
           //Get EVM address
-          const account_id = 24;
-          const address_id = 11;
+          const account_id = generateRandomness().substring(0,4);
+          const address_id = generateRandomness().substring(0,3);
 
-          const {evmAddress}= await generateAddress(account_id,address_id)
-          console.log('evmaddress',evmAddress);
-          const {aptAddress}= await generateAPTAddress(account_id)
-          console.log('aptaddress',aptAddress);
-          if(evmAddress != null && aptAddress !=null)
-          {
+          const { evmAddress } = await generateAddress(account_id, address_id);
+
+          const { aptAddress } = await generateAPTAddress(account_id);
+
+          if (evmAddress != null && aptAddress != null) {
             const form = {
               Email: NewdecodedJwt?.email,
               Date: new Date(),
-              EVMAddress: evmAddress.address ,
+              EVMAddress: evmAddress.address,
               AptosAddress: aptAddress.address,
             };
-        
+
             var keyValuePairs = [];
-        
+
             for (let [key, value] of Object.entries(form)) {
               keyValuePairs.push(key + "=" + value);
             }
-        
+
             var formDataString = keyValuePairs.join("&");
-        
+
             const response = await fetch(scriptURLPost, {
               redirect: "follow",
               mode: "no-cors",
@@ -275,73 +281,91 @@ export default function Header() {
                 "Content-Type": "text/plain;charset=utf-8",
               },
             });
-            setEmail(NewdecodedJwt?.email)
+            setEmail(NewdecodedJwt?.email);
+            await  postData("https://dgt-dev.vercel.app/v1/claim_token",  
+              {
+                "receiver": NewdecodedJwt?.email,
+                "amount": 1024,
+                "created_at":new Date(),
+                "email": NewdecodedJwt?.email
+              }
+              ).then((data) => {
+                    console.log(data); // JSON data parsed by `data.json()` call
+                    toast.success(
+                    "Claim your first token success!\n Let's try Digitrust!",
+                      {
+                        style: {
+                          maxWidth: "900px",
+                        },
+                        duration: 5000,
+                      }
+                    );
+                    startOnborda();
+              });
           }
-        }
-        else{
-          setEmail(data?.email)
+        } else {
+          setEmail(data?.email);
         }
 
-        const {balance}= await getBalance(email);
+        const { balance } = await getBalance(email);
         setPoint(balance?.amount);
-        window.localStorage.setItem("userEmail", email);
         toast.dismiss(myToast);
-
-        // setJwtString(oauthParams?.id_token as string);
-        // setDecodedJwt(NewdecodedJwt);
-        // setTimeout(() => {
-        //   var salt = window.localStorage.getItem("demo_user_salt_key_pair");
-        //   if (salt == null && salt == "") {
-        //     salt = generateRandomness();
-        //     console.log("New salt is:", salt);
-        //   } else {
-        //     console.log("Current salt is:", salt);
-        //   }
-
-        //   const jw = oauthParams?.id_token as string;
-        //   window.localStorage.setItem(
-        //     process.env.NEXT_PUBLIC_USER_SALT_LOCAL_STORAGE_KEY as string,
-        //     salt as string
-        //   );
-
-        //   setUserSalt(salt as string);
-        //   if (!salt) {
-        //     console.log("Not detect salt!");
-        //     return;
-        //   }
-        //   console.log(jw);
-        //   const NewzkLoginUserAddress = jwtToAddress(jw, salt);
-        //   setZkLoginUserAddress(NewzkLoginUserAddress);
-        //   console.log(NewzkLoginUserAddress);
-        //   window.localStorage.setItem("userAddress", NewzkLoginUserAddress);
-        // }, 300);
       }
     };
     getUserAddress();
   }, [oauthParams]);
 
   useEffect(() => {
-    const getFaucet = async () => {
-      console.log("Your address is:", zkLoginUserAddress);
-      if (
-        window.localStorage.getItem(zkLoginUserAddress) != "1" &&
-        window.localStorage.getItem("userAddress") != null
-      ) {
-        startOnborda();
-        window.localStorage.setItem(zkLoginUserAddress, "1");
-      }
-    };
-    getFaucet();
-  }, [zkLoginUserAddress]);
+    window.localStorage.setItem("userEmail",email);
+  },[email])
+
+  const classes = `flex items-center justify-between px-[35px] py-[18px] text-sm xl:px-[120px] xl:text-base ${
+    props.isHome ? "bg-white" : "bg-blue-600 text-white"
+  }`;
 
   return (
     <Fragment>
-      <header className="flex items-center justify-between px-[20px] py-[18px] text-sm xl:px-[120px] xl:text-base bg-blue-600 text-white">
+      <header className={classes}>
         {/* Logo */}
         <div>
-          <Link href="/">
-            <Image src={digitrustLogo} alt="digitrust logo" height={50} />
-          </Link>
+          {props.isHome ? (
+            <Link href="/">
+              <Image
+                src={digitrustLogo}
+                alt="digitrust logo"
+                height={50}
+                className="hidden sm:block"
+              />
+            </Link>
+          ) : (
+            <Link href="/">
+              <Image
+                src={digitrustWhiteLogo}
+                alt="digitrust logo"
+                height={50}
+                className="hidden sm:block"
+              />
+            </Link>
+          )}
+          {props.isHome ? (
+            <Link href="/">
+              <Image
+                src={digitrustNoTextLogo}
+                alt="digitrust logo"
+                className="sm:hidden object-fit"
+                width={60}
+              />
+            </Link>
+          ) : (
+            <Link href="/">
+              <Image
+                src={digitrustNoTextWhiteLogo}
+                alt="digitrust logo"
+                className="sm:hidden object-fit"
+                width={60}
+              />
+            </Link>
+          )}
         </div>
 
         {/* Navigations */}
@@ -361,193 +385,217 @@ export default function Header() {
           </ul>
         </nav>
 
-        <Dropdown
-          radius="sm"
-          classNames={{
-            content: "border-small border-divider bg-background py-0",
-          }}
-        >
-          <DropdownTrigger>
-            <Button isIconOnly variant="ghost" disableRipple>
-              <MenuIcon />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label="Custom item styles"
-            className="p-3"
-            itemClasses={{
-              base: [
-                "rounded-md",
-                "text-default-500",
-                "transition-opacity",
-                "data-[selectable=true]:focus:bg-default-50",
-                "data-[pressed=true]:opacity-70",
-                "data-[focus-visible=true]:ring-default-500",
-              ],
+        {email == "" ? (
+          <button
+            className=" bg-white border-solid border-1 rounded-md"
+            onClick={async () => beginZkLogin()}
+          >
+            <div className="grid grid-row-auto grid-flow-col my-2 mx-2">
+              <GoogleIcon />
+              <span className="text-blue-600 font-bold mx-2">Google login</span>
+            </div>
+          </button>
+        ) : (
+          <Dropdown
+            radius="sm"
+            classNames={{
+              content: "border-small border-divider bg-background py-0",
             }}
           >
-            <DropdownSection hidden={email != ""}>
-              <DropdownItem
-                isReadOnly
-                key="login"
-                className="gap-2 opacity-100  bg-white"
-              >
-                <button
-                  className="grid grid-row-auto grid-flow-col"
-                  onClick={async () => beginZkLogin()}
+            <DropdownTrigger>
+              <Button isIconOnly variant="ghost" disableRipple>
+                <MenuIcon
+                  bgColor={`${props.isHome ? "black" : "white"}`}
+                  iconColor={`${props.isHome ? "black" : "white"}`}
+                />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Custom item styles"
+              className="p-3"
+              itemClasses={{
+                base: [
+                  "rounded-md",
+                  "text-default-500",
+                  "transition-opacity",
+                  "data-[selectable=true]:focus:bg-default-50",
+                  "data-[pressed=true]:opacity-70",
+                  "data-[focus-visible=true]:ring-default-500",
+                ],
+              }}
+            >
+              <DropdownSection hidden={email != ""}>
+                <DropdownItem
+                  isReadOnly
+                  key="login"
+                  className="gap-2 opacity-100  bg-white"
                 >
-                  <GoogleIcon />
-                  <span className="text-blue-600 font-bold mx-2">
-                    Google login
-                  </span>
-                </button>
-              </DropdownItem>
-            </DropdownSection>
+                  <button
+                    className="grid grid-row-auto grid-flow-col"
+                    onClick={async () => beginZkLogin()}
+                  >
+                    <GoogleIcon />
+                    <span className="text-blue-600 font-bold mx-2">
+                      Google login
+                    </span>
+                  </button>
+                </DropdownItem>
+              </DropdownSection>
 
-            <DropdownSection
-              className="py-1"
-              showDivider
-              hidden={email == ""}
-            >
-              <DropdownItem
-                isReadOnly
-                key="info"
-                className="h-14 gap-2 opacity-100  bg-white py-2"
+              <DropdownSection
+                className="py-1"
+                showDivider
+                hidden={email == ""}
               >
-                <div className="flex justify-center items-center">
-                  <span className="font-bold text-3xl">{point}</span>
-                  <span className="font-bold text-sm place-items-center">DGT</span>
-                </div>
-
-                <div className="grid grid-row-auto grid-flow-col">
-                  <GoogleIcon />
-                  <span className="text-blue-600 font-bold px-1">
-                    <div className="px-1">{email}</div>
-                  </span>
-                </div>
-              </DropdownItem>
-            </DropdownSection>
-
-            <DropdownSection
-              className="py-2"
-              showDivider
-              hidden={email == ""}
-            >
-              <DropdownItem key="MyMenu"  >
-                <div className="grid grid-rows-3 grid-flow-col gap-3 place-items-center">
-                  <div className="row-span-3">
-                    <Link href={"/profile"} >
-                      <button>
-                      <p className="ml-2"><ProfileIcon/></p>
-                        <p className="text-blue-600 font-bold">Profile</p>
-                      </button>
-                    </Link>
+                <DropdownItem
+                  isReadOnly
+                  key="info"
+                  className="h-14 gap-2 opacity-100  bg-white py-2"
+                >
+                  <div className="flex justify-center items-center">
+                    <span className="font-bold text-3xl">{point}</span>
+                    <span className="font-bold text-sm place-items-center">
+                      DGT
+                    </span>
                   </div>
-                  <div className="row-span-3">
-                    <Link href={"/history"} >
-                      <button>
-                        <p className="ml-2"><HistoryIcon/></p>
-                        <p className="text-blue-600 font-bold">History</p>
-                      </button>
-                    </Link>
-                  </div>
-                  <div className="row-span-3 place-items-center">
-                    <button  onClick={async () => logOutWallet()}>
-                      <p className="ml-3"><ExitIcon/></p>
-                      <p className="text-blue-600 font-bold">Log Out</p>
-                    </button>
-                  </div>
-                </div>
-              </DropdownItem>
-            </DropdownSection>
 
-            <DropdownSection showDivider hidden={email == ""}>
-            <DropdownItem
-                isReadOnly
-                key="chain"
-                className="cursor-default"
-                endContent={
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <div className="flex items-center rounded-lg bg-white px-0 text-blue-600">
-                        {selectedKeys}
-                      </div>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label="Single selection example"
-                      variant="flat"
-                      disallowEmptySelection
-                      selectionMode="single"
-                    >
-                      <DropdownItem
-                        key="suidevnet"
-                        startContent={<SUIWallet className={iconClasses} />}
-                        onClick={() =>
-                          setSelectedKeys(
-                            <>
-                              <SUIWallet className={iconClasses} />
-                              Sui
-                              <Down />
-                            </>
-                          )
-                        }
-                      >
-                        Sui
-                      </DropdownItem>
-                      <DropdownItem
-                        key="klaytntestnet"
-                        startContent={<KlayIcon className={iconClasses} />}
-                        onClick={() =>
-                          setSelectedKeys(
-                            <>
-                              <KlayIcon className={iconClasses} />
-                              Klaytn
-                              <Down />
-                            </>
-                          )
-                        }
-                      >
-                        Klaytn
-                      </DropdownItem>
-                      <DropdownItem
-                        key="aptos"
-                        startContent={<AptosIcon className={iconClasses} />}
-                        onClick={() =>
-                          setSelectedKeys(
-                            <>
-                              <ArbitrumIcon className={iconClasses} />
-                              Aptos
-                              <Down />
-                            </>
-                          )
-                        }
-                      >
-                        Aptos
-                      </DropdownItem>
-                      <DropdownItem
-                        key="algorandtestnet"
-                        startContent={<AlgorandIcon className={iconClasses} />}
-                        onClick={() =>
-                          setSelectedKeys(
-                            <>
-                              <AlgorandIcon className={iconClasses} />
-                              Algorand
-                              <Down />
-                            </>
-                          )
-                        }
-                      >
-                        Algorand
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                }
+                  <div className="grid grid-row-auto grid-flow-col">
+                    <GoogleIcon />
+                    <span className="text-blue-600 font-bold px-1">
+                      <div className="px-1">{email}</div>
+                    </span>
+                  </div>
+                </DropdownItem>
+              </DropdownSection>
+              <DropdownSection
+                className="py-2"
+                showDivider
+                hidden={email == ""}
               >
-                Chain
-              </DropdownItem>
-            </DropdownSection>
-          </DropdownMenu>
-        </Dropdown>
+                <DropdownItem key="MyMenu">
+                  <div className="grid grid-rows-3 grid-flow-col gap-3 place-items-center">
+                    <div className="row-span-3">
+                      <Link href={"/profile"}>
+                        <button>
+                          <p className="ml-2">
+                            <ProfileIcon />
+                          </p>
+                          <p className="text-blue-600 font-bold">Profile</p>
+                        </button>
+                      </Link>
+                    </div>
+                    <div className="row-span-3">
+                      <Link href={"/history"}>
+                        <button>
+                          <p className="ml-2.5">
+                            <HistoryIcon />
+                          </p>
+                          <p className="text-blue-600 font-bold">History</p>
+                        </button>
+                      </Link>
+                    </div>
+                    <div className="row-span-3 place-items-center">
+                      <button onClick={async () => logOutWallet()}>
+                        <p className="ml-3.5">
+                          <ExitIcon />
+                        </p>
+                        <p className="text-blue-600 font-bold">Log Out</p>
+                      </button>
+                    </div>
+                  </div>
+                </DropdownItem>
+              </DropdownSection>
+
+              <DropdownSection showDivider hidden={email == ""}>
+                <DropdownItem
+                  isReadOnly
+                  key="chain"
+                  className="cursor-default text-blue-600 font-bold"
+                  endContent={
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <div className="flex items-center rounded-lg bg-white px-0 text-blue-600">
+                          {selectedKeys}
+                        </div>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label="Single selection example"
+                        variant="flat"
+                        disallowEmptySelection
+                        selectionMode="single"
+                      >
+                        <DropdownItem
+                          key="suidevnet"
+                          startContent={<SUIWallet className={iconClasses} />}
+                          onClick={() =>
+                            setSelectedKeys(
+                              <>
+                                <SUIWallet className={iconClasses} />
+                                Sui
+                                <Down />
+                              </>
+                            )
+                          }
+                        >
+                          Sui
+                        </DropdownItem>
+                        <DropdownItem
+                          key="klaytntestnet"
+                          startContent={<KlayIcon className={iconClasses} />}
+                          onClick={() =>
+                            setSelectedKeys(
+                              <>
+                                <KlayIcon className={iconClasses} />
+                                Klaytn
+                                <Down />
+                              </>
+                            )
+                          }
+                        >
+                          Klaytn
+                        </DropdownItem>
+                        <DropdownItem
+                          key="aptos"
+                          startContent={<AptosIcon className={iconClasses} />}
+                          onClick={() =>
+                            setSelectedKeys(
+                              <>
+                                <ArbitrumIcon className={iconClasses} />
+                                Aptos
+                                <Down />
+                              </>
+                            )
+                          }
+                        >
+                          Aptos
+                        </DropdownItem>
+                        <DropdownItem
+                          key="algorandtestnet"
+                          startContent={
+                            <AlgorandIcon className={iconClasses} />
+                          }
+                          onClick={() =>
+                            setSelectedKeys(
+                              <>
+                                <AlgorandIcon className={iconClasses} />
+                                Algorand
+                                <Down />
+                              </>
+                            )
+                          }
+                        >
+                          Algorand
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  }
+                >
+                  Chain
+                </DropdownItem>
+              </DropdownSection>
+            </DropdownMenu>
+          </Dropdown>
+        )}
       </header>
     </Fragment>
   );

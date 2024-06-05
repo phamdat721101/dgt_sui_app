@@ -17,7 +17,12 @@ const MainLayout = () => {
   console.log(pathname);
   return (
     <>
-      {pathname != "" && <ProfileHeader></ProfileHeader>}
+      {pathname != "" && pathname == "home" && (
+        <ProfileHeader isHome={true}></ProfileHeader>
+      )}
+      {pathname != "" && pathname != "home" && (
+        <ProfileHeader isHome={false}></ProfileHeader>
+      )}
       {pathname == "" && <Header></Header>}
     </>
   );

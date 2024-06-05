@@ -4,14 +4,13 @@ import MyInput from "../DigiTrust/DateInput";
 
 interface Data {
   date: string;
-  name: string;
-  symbol: string;
-  quantity: number;
-  purchase_price: string;
-  current_price: string;
-  total_loss: string;
+  manager: string;
+  package_type: string;
+  amount: number;
+  price: number;
+  expected_return: number;
   tx_hash: string;
-  exp_date: string;
+  expire_date: string;
 }
 
 const Strategy = () => {
@@ -24,7 +23,7 @@ const Strategy = () => {
     const fetchDataDetails = async () => {
       // Api Default
       const response = await fetch(
-        "https://dgt-dev.vercel.app/v1/portfolio_tracker?user_adr=0x12d2"
+        "https://dgt-dev.vercel.app/v1/user_history?email=a@gmail.com"
       );
       const data = await response.json();
 
@@ -38,7 +37,7 @@ const Strategy = () => {
 
   return (
     <>
-      <div className="flex gap-[18px] py-4 sm:py-6">
+      <div className="flex gap-[18px] py-4 sm:py-6 sm:mt-8">
         <span className="text-2xl sm:text-3xl text-gray-800 font-semibold">
           History
         </span>
@@ -113,34 +112,28 @@ const Strategy = () => {
         </div>
       </div> */}
       <div className="sm:py-8 overflow-x-auto">
-        <table className="table-auto w-full px-1.5 bg-white text-left border border-[#C3D4E9]">
-          <thead className="text-sm sm:text-base	font-medium	text-gray-800 tracking-tight">
+        <table className="bg-white min-w-full border border-[#C3D4E9]">
+          <thead>
             <tr>
-              <th className="w-[9%] pl-1.5 px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
                 Date
               </th>
-              <th className="w-[12%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                Name
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                Manager
               </th>
-              <th className="w-[9%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                Symbol
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                Package Type
               </th>
-              <th className="w-[11%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                Quantity
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                Amount
               </th>
-              <th className="w-[12%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                Purchase Price
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                Price
               </th>
-              <th className="w-[12%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                Current Price
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                Expected Return
               </th>
-              <th className="w-[12%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                Total Loss
-              </th>
-              <th className="w-[12%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                Tx Hash
-              </th>
-              <th className="w-[11%] pr-1.5 px-2 py-6 border-b border-b-[#C3D4E9] text-right whitespace-nowrap">
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
                 Expiration Date
               </th>
             </tr>
@@ -148,33 +141,28 @@ const Strategy = () => {
           <tbody className="text-sm sm:text-base	text-gray-800 tracking-tight">
             {datas.length != 0 ? (
               datas.map((data: any) => (
-                <tr>
-                  <td className="w-[9%] pl-1.5 px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
+                <tr className="border-b border-b-[#C3D4E9] text-sm sm:text-base text-gray-800 font-medium leading-normal">
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
                     {data.date}
                   </td>
-                  <td className="w-[12%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                    {data.name}
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    {data.manager}
                   </td>
-                  <td className="w-[9%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                    {data.symbol}
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    {data.package_type}
                   </td>
-                  <td className="w-[11%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                    {data.quantity}
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    {data.amount}
                   </td>
-                  <td className="w-[12%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                    {data.purchase_price}
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    {data.price}
                   </td>
-                  <td className="w-[12%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                    {data.current_price}
+
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    {data.expected_return}
                   </td>
-                  <td className="w-[12%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                    {data.total_loss}
-                  </td>
-                  <td className="w-[12%] px-2 py-6 border-b border-b-[#C3D4E9] whitespace-nowrap">
-                    {data.tx_hash}
-                  </td>
-                  <td className="w-[11%] pr-1.5 px-2 py-6 border-b border-b-[#C3D4E9] text-center whitespace-nowrap">
-                    {data.exp_date}
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    {data.expire_date}
                   </td>
                 </tr>
               ))

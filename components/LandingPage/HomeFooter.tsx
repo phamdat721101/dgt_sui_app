@@ -27,7 +27,7 @@ export default function Footer() {
 
     var formDataString = keyValuePairs.join("&");
 
-    const response = await fetch(scriptURL, {
+    const response = await fetch(scriptURLPost, {
       redirect: "follow",
       mode: "no-cors",
       method: "POST",
@@ -43,7 +43,6 @@ export default function Footer() {
     const url = `https://script.google.com/macros/s/AKfycbwpKywlfgvuc_P_6ZYtAArtiKW9pgEmGuuKpmWOsqcAqQbG2C1My2kaV3eQkUdMicTK/exec?email=${email}`;
     const res = await fetch(url);
     const da = await res.json();
-    console.log(da);
   }
 
   return (
@@ -58,7 +57,7 @@ export default function Footer() {
             alt="bgNewsletter"
           ></Image>
 
-          <div className="relative space-y-[30px] py-[100px] pl-5 sm:pl-[70px] text-white">
+          <div className="relative space-y-[30px] py-[100px] px-5 sm:pl-[70px] text-white">
             <div className="space-y-[13px]">
               <h1 className="text-3xl sm:text-4xl font-bold leading-[110%] xl:text-[50px]">
                 Get Started with DigiTrust Today!

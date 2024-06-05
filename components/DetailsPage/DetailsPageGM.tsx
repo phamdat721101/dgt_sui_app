@@ -34,7 +34,7 @@ export default function DetailsPage() {
   return (
     <>
       <Info />
-      <main className="px-5 sm:px-[90px] pb-12 sm:pb-24">
+      <main className="px-5 sm:px-[50px] lg:px-[90px] pb-12 sm:pb-24">
         <Overview />
       </main>
     </>

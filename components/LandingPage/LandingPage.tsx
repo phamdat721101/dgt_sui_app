@@ -50,7 +50,7 @@ export default function HomePage() {
       {/* <Layout> */}
       {/* Hero banner */}
       <section className="hero-background flex relative">
-        <div className="w-1/2">
+        <div className="w-[55%] sm:w-1/2">
           <div className="z-50 flex-1 space-y-[44px] py-[70px] pl-[50px] text-white xl:max-w-6xl xl:py-[120px] xl:pl-[120px]">
             <div className="space-y-5">
               <h3 className="text-base font-normal xl:text-[22px]">
@@ -125,7 +125,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        <div className="w-1/2 py-7 md:py-14 overflow-hidden">
+        <div className="w-[45%] sm:w-1/2 py-7 md:py-14 overflow-hidden">
           <Image
             className="h-full object-left-top object-cover"
             src={imageHero}
@@ -941,7 +941,7 @@ export default function HomePage() {
                 />
                 <h1>What is DigiTrust?</h1>
               </summary>
-              <p className="opacity-70 pl-12 md:pl-[92px] pt-4 max-w-lg text-base font-normal text-gray-600 text-justify">
+              <p className="opacity-70 pl-12 md:pl-[92px] pt-4 max-w-lg text-base font-normal text-gray-600">
                 DigiTrust is a decentralized asset management protocol that
                 leverages blockchain technology to allow users to securely
                 manage, invest, and trade digital assets without intermediaries.
@@ -959,7 +959,7 @@ export default function HomePage() {
                 />
                 <h1>How do I start using DigiTrust?</h1>
               </summary>
-              <p className="opacity-70 pl-12 md:pl-[92px] pt-4 max-w-lg text-base font-normal text-gray-600 text-justify">
+              <p className="opacity-70 pl-12 md:pl-[92px] pt-4 max-w-lg text-base font-normal text-gray-600">
                 To use DigiTrust, you need a compatible digital wallet. Connect
                 your wallet to the DigiTrust platform, deposit your assets, and
                 you can begin managing your portfolio and engaging in various
@@ -981,7 +981,7 @@ export default function HomePage() {
                 />
                 <h1>Is DigiTrust secure?</h1>
               </summary>
-              <p className="opacity-70 pl-12 md:pl-[92px] pt-4 max-w-lg text-base font-normal text-gray-600 text-justify">
+              <p className="opacity-70 pl-12 md:pl-[92px] pt-4 max-w-lg text-base font-normal text-gray-600">
                 DigiTrust employs high-security standards using advanced
                 cryptographic techniques. However, it’s important to be aware of
                 potential risks like smart contract vulnerabilities and market
@@ -1001,7 +1001,7 @@ export default function HomePage() {
                 />
                 <h1>Can I earn passive income with DigiTrust?</h1>
               </summary>
-              <p className="opacity-70 pl-12 md:pl-[92px] pt-4 max-w-lg text-base font-normal text-gray-600 text-justify">
+              <p className="opacity-70 pl-12 md:pl-[92px] pt-4 max-w-lg text-base font-normal text-gray-600">
                 Yes, DigiTrust offers opportunities to earn passive income
                 through staking, yield farming, and lending. These decentralized
                 finance (DeFi) activities enable users to grow their assets over
@@ -1020,7 +1020,7 @@ export default function HomePage() {
                 />
                 <h1>How is DigiTrust governed?</h1>
               </summary>
-              <p className="opacity-70 pl-12 md:pl-[92px] pt-4 max-w-lg text-base font-normal text-gray-600 text-justify">
+              <p className="opacity-70 pl-12 md:pl-[92px] pt-4 max-w-lg text-base font-normal text-gray-600">
                 DigiTrust is governed by a decentralized autonomous organization
                 (DAO), where token holders can propose and vote on changes to
                 the protocol. This ensures community-driven decision-making.

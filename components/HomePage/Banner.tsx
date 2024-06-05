@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
@@ -64,7 +65,7 @@ const Banner: React.FC<{ time: number }> = ({ time }) => {
     </div>
   ) : (
     <div className="relative mx-auto top-[66px]">
-      <div className="flex-col align-center">
+      <div className="flex-col align-center px-3">
         <h1 className="text-2xl sm:text-[42px] leading-[42px] text-white font-semibold tracking-tight text-center">
           No vaults created
         </h1>
@@ -110,11 +111,13 @@ const Banner: React.FC<{ time: number }> = ({ time }) => {
           </div>
         </div>
         <div className="sm:mt-[35px] text-center">
-          <button className="bg-white rounded-[10px]">
-            <div className="px-5 py-2.5 sm:px-[41px] sm:py-[13px] text-[#2563EB] text-base sm:text-xl font-semibold leading-[30px] tracking-tight">
-              Create Vault
-            </div>
-          </button>
+          <Link href="/detail">
+            <button className="bg-white rounded-[10px]">
+              <div className="px-5 py-2.5 sm:px-[41px] sm:py-[13px] text-[#2563EB] text-base sm:text-xl font-semibold leading-[30px] tracking-tight">
+                Create Vault
+              </div>
+            </button>
+          </Link>
         </div>
       </div>
     </div>

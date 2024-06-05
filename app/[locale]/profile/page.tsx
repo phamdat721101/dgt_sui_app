@@ -6,9 +6,7 @@ const ProfileChild = dynamic(() => import("@/components/Profile/index"), {
 });
 
 const fetchProfile = async () => {
-  const response = await fetch(
-    "https://dgt-dev.vercel.app/v1/user?user_id=user_v1"
-  );
+  const response = await fetch("https://dgt-dev.vercel.app/v1/user?adr=0x132");
 
   if (!response.ok) {
     return null;
@@ -23,21 +21,20 @@ export default async function profile() {
   if (!profile || Object.keys(profile).length === 0) {
     return <div>User not found</div>;
   }
-    return (
-        <main className="overflow-hidden flex flex-col min-h-screen">
-          <div className="container mx-auto px-4">
-            <ProfileChild
-                name={profile.name}
-                holdingAmount={profile.holding_amount}
-                managedAmount={profile.managed_amount}
-                description={profile.des}
-                wallet={profile.wallet}
-                logoUrl={profile.logo_url}
-                vaults={profile.vaults}
-                dgtAmount={profile.dgt_amount}
-              ></ProfileChild>
-          </div> 
-        </main>
-    );
+  return (
+    <main className="overflow-hidden flex flex-col min-h-screen">
+      <div className="container mx-auto px-4">
+        <ProfileChild
+          name={profile.name}
+          holdingAmount={profile.holding_amount}
+          managedAmount={profile.managed_amount}
+          description={profile.des}
+          wallet={profile.wallet}
+          logoUrl={profile.logo_url}
+          vaults={profile.vaults}
+          dgtAmount={profile.dgt_amount}
+        ></ProfileChild>
+      </div>
+    </main>
+  );
 }
-  

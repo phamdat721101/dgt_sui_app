@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
-
+import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
 import bitcoin from "@/assets/images/crypto/bitcoin.svg";
 import ethereum from "@/assets/images/crypto/ethereum.svg";
 import bnb from "@/assets/images/crypto/bnb.svg";
@@ -35,6 +35,7 @@ import filterIc from "@/assets/images/icons/filter-icon.svg";
 import downloadIc from "@/assets/images/icons/download-icon.svg";
 import chartAPY1 from "@/assets/images/icons/chart-apy1.png";
 import chartAPY2 from "@/assets/images/icons/chart-apy2.png";
+import digitrustNoTextLogo from "@/assets/images/digitrust_notext.png";
 
 interface Vault {
   url: string;
@@ -134,31 +135,31 @@ const vaults = [
     ],
     apy: chartAPY2,
   },
-  {
-    assets: [
-      {
-        name: "tether",
-        img: tether,
-      },
-      {
-        name: "enj",
-        img: enj,
-      },
-      {
-        name: "ont",
-        img: ont,
-      },
-      {
-        name: "eos",
-        img: eos,
-      },
-      {
-        name: "chz",
-        img: chz,
-      },
-    ],
-    apy: chartAPY1,
-  },
+  // {
+  //   assets: [
+  //     {
+  //       name: "tether",
+  //       img: tether,
+  //     },
+  //     {
+  //       name: "enj",
+  //       img: enj,
+  //     },
+  //     {
+  //       name: "ont",
+  //       img: ont,
+  //     },
+  //     {
+  //       name: "eos",
+  //       img: eos,
+  //     },
+  //     {
+  //       name: "chz",
+  //       img: chz,
+  //     },
+  //   ],
+  //   apy: chartAPY1,
+  // },
   // {
   //   assets: [
   //     {
@@ -238,17 +239,20 @@ const vaults = [
 
 export default function VaultsList() {
   const [data, setData] = useState<any>();
+  const [isLoading, setIsLoading] = useState(true);
 
   let vaultsList: Vault[];
 
   // Call Api
   useEffect(() => {
     const fetchDataDetails = async () => {
+      setIsLoading(true);
       // Api Default
       const response = await fetch("https://dgt-dev.vercel.app/v1/vaults");
       const data = await response.json();
 
       setData(data);
+      setIsLoading(false);
     };
 
     fetchDataDetails();
@@ -318,100 +322,110 @@ export default function VaultsList() {
         </div> */}
       </div>
       {/* <div className="align-middle inline-block min-w-full shadow overflow-x-auto bg-white shadow-dashboard px-8 pt-3 rounded-bl-lg rounded-br-lg"> */}
-      <div>
-        <table className="min-w-full">
-          {" "}
-          <thead>
-            <tr>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">
-                Vault Name
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
-                Price
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
-                TVL
-                {/* <Image
+      <div className="overflow-x-auto">
+        {isLoading && (
+          <div className="animate-pulse">
+            <div className="h-4 bg-gray-200 mt-3 mb-6 rounded"></div>
+            <div className="h-4 bg-gray-300 mb-6 rounded"></div>
+            <div className="h-4 bg-gray-200 mb-6 rounded"></div>
+            <div className="h-4 bg-gray-300 mb-6 rounded"></div>
+            <div className="h-4 bg-gray-200 mb-6 rounded"></div>
+          </div>
+        )}
+        {!isLoading && (
+          <table className="min-w-full border border-[#C3D4E9]">
+            <thead>
+              <tr>
+                <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                  Vault Name
+                </th>
+                <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                  Price
+                </th>
+                <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                  TVL
+                  {/* <Image
                   className="w-[16px] h-[16px]"
                   src={arrowDownUpIc}
                   alt="arrow-icon"
                 /> */}
-              </th>
+                </th>
 
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
-                Asset
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
-                7 Days
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">
-                Return
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {mergedData.map((vault) => (
-              <tr className="border-b border-[#C3D4E9]">
-                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                  <div className="flex items-center gap-1 sm:gap-4">
-                    <Image
-                      className="h-[32px] w-[32px]"
-                      src={vault.url}
-                      alt={vault.vault_name}
-                      width={32}
-                      height={32}
-                    />
-                    <span>{vault.vault_name}</span>
-                    <span className="text-[#90A3BF]">{vault.symbol}</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                  {vault.price}
-                </td>
-                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                  {vault.tvl}
-                </td>
-                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                  <div className="w-full flex items-center">
-                    {vault.assets.map((asset) => (
-                      <Image
-                        className="w-[26px] h-[26px] object-cover rounded-[50%] bg-white [&:not(:first-child)]:-ml-[8px]"
-                        src={asset.img}
-                        alt={asset.name}
-                        width={26}
-                        height={26}
-                      />
-                    ))}
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                  <Image src={vault.apy} alt="chart" />
-                </td>
-                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                  {vault.monthly_return}
-                </td>
-                <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                  <button
-                    className="border rounded-[10px] border-[#2563EB]"
-                    id="onborda-step1"
-                  >
-                    <div className="flex items-center px-2 sm:px-[26px] gap-2 py-[5px] text-[#2563EB]">
-                      <Image
-                        className="hidden sm:block w-[18px] h-[18px]"
-                        src={depositIc}
-                        alt="deposit-icon"
-                      />
-                      <span className="font-normal">
-                        <a href="/detail">Deposit</a>
-                      </span>
-                    </div>
-                  </button>
-                </td>
+                <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                  Asset
+                </th>
+                <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                  7 Days
+                </th>
+                <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                  Return
+                </th>
+                <th className="px-6 py-6 border-b border-b-[#C3D4E9]"></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {mergedData.map((vault) => (
+                <tr className="border-b border-[#C3D4E9]">
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    <div className="flex items-center gap-2 sm:gap-4">
+                      <Image
+                        className="h-[32px] w-[32px]"
+                        src={digitrustNoTextLogo}
+                        alt={vault.vault_name}
+                        width={32}
+                        height={32}
+                      />
+                      <span>{vault.vault_name}</span>
+                      <span className="text-[#90A3BF]">{vault.symbol}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    {vault.price}
+                  </td>
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    {vault.tvl}
+                  </td>
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9] overflow-hidden">
+                    <div className="w-full flex items-center">
+                      {vault.assets.map((asset) => (
+                        <Image
+                          className="w-[26px] h-[26px] object-cover rounded-[50%] bg-white [&:not(:first-child)]:-ml-[8px]"
+                          src={asset.img}
+                          alt={asset.name}
+                          width={26}
+                          height={26}
+                        />
+                      ))}
+                    </div>
+                  </td>
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    <Image src={vault.apy} alt="chart" />
+                  </td>
+                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    {vault.monthly_return}
+                  </td>
+                  <td className="px-6 py-6 whitespace-no-wrap">
+                    <button
+                      className="border rounded-[10px] border-[#2563EB]"
+                      id="onborda-step1"
+                    >
+                      <div className="flex items-center px-2 sm:px-[26px] gap-2 py-[5px] text-[#2563EB]">
+                        <Image
+                          className="hidden sm:block w-[18px] h-[18px]"
+                          src={depositIc}
+                          alt="deposit-icon"
+                        />
+                        <span className="font-normal">
+                          <Link href="/detail">Deposit</Link>
+                        </span>
+                      </div>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

@@ -61,6 +61,15 @@ export default function Overview() {
   // End call api
 
   assets = dataDetails?.assets || [];
+  const chartData: { name: string; value: number }[] = dataDetails?.assets.map(
+    (asset: Asset) => {
+      return {
+        name: asset.symbol,
+        value: parseFloat(asset.holding.slice(0, -1)),
+      };
+    }
+  );
+  console.log(chartData);
 
   return (
     <div className="mt-11 ">
@@ -144,7 +153,7 @@ export default function Overview() {
           <div className="w-full h-full flex items-start">
             <div className="relative sm:w-[42%]">
               <div className="absolute top-[30px] left-[-5px] sm:top-[34px] sm:left-[55px]">
-                <PieChart />
+                <PieChart data={chartData} />
               </div>
               <div className="absolute top-[110px] left-[65px] sm:top-[110px] sm:left-[123px] ">
                 <div className="flex gap-3 justify-center">
@@ -158,7 +167,7 @@ export default function Overview() {
                 </div>
               </div>
             </div>
-            <div className="ml-[250px] sm:ml-0 sm:w-[58%] pt-11">
+            <div className="ml-[240px] sm:ml-0 sm:w-[58%] pt-11">
               <div className="flex gap-3">
                 <Image width={24} height={24} src={usdc} alt="usdc" />
                 <span className="font-semibold text-[#90A3BF] leading-normal">
@@ -197,15 +206,19 @@ export default function Overview() {
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="table-auto w-full mt-11 bg-white text-left border border-[#C3D4E9]">
+            <table className="mt-11 bg-white min-w-full border border-[#C3D4E9]">
               <thead>
-                <tr className="border-b border-b-[#C3D4E9] text-gray-800 font-semibold leading-normal">
-                  <th className="w-[30%] pl-2 sm:pl-6 py-6 whitespace-nowrap">
+                <tr className="">
+                  <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
                     Asset
                   </th>
-                  <th className="w-[30%] py-6 whitespace-nowrap">Weight</th>
-                  <th className="w-[30%] py-6 whitespace-nowrap">Holding</th>
-                  <th className="w-[10%] pr-2 sm:pr-6 py-6 whitespace-nowrap">
+                  <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                    Weight
+                  </th>
+                  <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                    Holding
+                  </th>
+                  <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
                     Price 24h
                   </th>
                 </tr>
@@ -213,19 +226,19 @@ export default function Overview() {
               <tbody>
                 {assets.map((asset) => (
                   <tr className="border-b border-b-[#C3D4E9] text-sm sm:text-base text-gray-800 font-medium leading-normal">
-                    <td className="w-[30%] h-12 pl-2 sm:pl-6 px-2 py-6 whitespace-nowrap">
+                    <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
                       <div className="flex items-center ">
                         <Image className="w-8 h-8" src={btc} alt="bitcoin" />
                         <span className="ml-2 sm:ml-4">{asset.symbol}</span>
                       </div>
                     </td>
-                    <td className="w-[30%] h-12 px-2 py-6 whitespace-nowrap">
+                    <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
                       {true ? asset.weight : "--"}
                     </td>
-                    <td className="w-[30%] h-12 px-2 py-6 whitespace-nowrap">
+                    <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
                       {true ? asset.holding : "--"}
                     </td>
-                    <td className="w-[10%] h-12 pr-2 sm:pr-6 px-2 py-[18px] whitespace-nowrap">
+                    <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
                       <div>$ 6.35</div>
                       <div className="text-green-500">5.50%</div>
                     </td>

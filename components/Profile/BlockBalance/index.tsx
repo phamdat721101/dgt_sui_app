@@ -17,7 +17,7 @@ const BlockBalance = (props: TBlockBalance) => {
           <Info />
         </div>
       </div>
-      <div className="text-2xl sm:text-[40px] font-semibold">{value}</div>
+      <div className="pt-2 text-2xl sm:text-[40px] font-semibold">{value}</div>
     </div>
   );
 };

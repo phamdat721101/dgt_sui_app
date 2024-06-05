@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/Button";
 import digitrustLogo from "@/assets/images/digitrust.png";
+import digitrustNoTextLogo from "@/assets/images/digitrust_notext.png";
 
 const navLinks = [
   {
@@ -75,14 +76,20 @@ export default function Header() {
     //     </div>
     //   </header>
     // </div>
-    <header className="flex items-center justify-between px-[30px] py-[18px] text-sm xl:px-[120px] xl:text-base">
+    <header className="flex items-center justify-between px-[35px] py-[18px] text-sm xl:px-[120px] xl:text-base">
       {/* Logo */}
       <div>
         <Link href="/">
           <Image
             src={digitrustLogo}
             alt="digitrust logo"
-            className="h-[50px] w-[205px] object-fit"
+            className="hidden sm:block h-[50px] w-[205px] object-fit"
+          />
+          <Image
+            src={digitrustNoTextLogo}
+            alt="digitrust logo"
+            className="sm:hidden object-fit"
+            width={60}
           />
         </Link>
       </div>

@@ -43,7 +43,7 @@ const ProfileContainer = (props: TProfileContainerProps) => {
 
   return (
     <div>
-      {window.localStorage.getItem('userAddress') as string != "" && window.localStorage.getItem('userAddress') != undefined?
+      {true ? (
         <div>
           <GeneralInfo
             name={name}
@@ -67,11 +67,12 @@ const ProfileContainer = (props: TProfileContainerProps) => {
           </div>
           {/* <TabInfoProfile /> */}
           <Strategy />;
-        </div> :
+        </div>
+      ) : (
         <div>
           <SkeletonProfile />
         </div>
-    } 
+      )}
     </div>
   );
 };
