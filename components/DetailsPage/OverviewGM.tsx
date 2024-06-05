@@ -159,7 +159,7 @@ export default function Overview() {
                 <div className="flex gap-3 justify-center">
                   <Image width={24} height={24} src={usdc} alt="usdc" />
                   <span className="font-semibold text-[#90A3BF] leading-normal">
-                    AAVE
+                    USDC
                   </span>
                 </div>
                 <div className="font-semibold text-[32px] leading-normal tracking-tighter">
@@ -171,7 +171,7 @@ export default function Overview() {
               <div className="flex gap-3">
                 <Image width={24} height={24} src={usdc} alt="usdc" />
                 <span className="font-semibold text-[#90A3BF] leading-normal">
-                  AAVE
+                  USDC
                 </span>
               </div>
               <h3 className="pt-4 pb-3 font-normal text-gray-800 leading-7">
