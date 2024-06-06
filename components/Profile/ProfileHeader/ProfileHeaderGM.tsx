@@ -82,7 +82,7 @@ const navLinks = [
 ];
 
 async function generateAddress(account_id: string, address_id: string) {
-  const evmURL = `http://dgt-dev.vercel.app/v1/evm_adr?account_id=${account_id}&address_id=${address_id}`;
+  const evmURL = `https://dgt-dev.vercel.app/v1/evm_adr?account_id=${account_id}&address_id=${address_id}`;
   const resEVM = await fetch(evmURL);
   const evmAddress = await resEVM.json();
 
@@ -184,7 +184,7 @@ export default function Header(props: { isHome: boolean }) {
   const beginZkLogin = async () => {
     var myToast = toast.loading("Getting key pair...");
     const ephemeralKeyPair = Ed25519Keypair.generate();
-    window.localStorage.setItem(
+    window.sessionStorage.setItem(
       process.env.NEXT_PUBLIC_KEY_PAIR_SESSION_STORAGE_KEY as string,
       ephemeralKeyPair.export().privateKey
     );
