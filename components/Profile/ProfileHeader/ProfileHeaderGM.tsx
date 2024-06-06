@@ -184,7 +184,7 @@ export default function Header(props: { isHome: boolean }) {
   const beginZkLogin = async () => {
     var myToast = toast.loading("Getting key pair...");
     const ephemeralKeyPair = Ed25519Keypair.generate();
-    window.sessionStorage.setItem(
+    window.localStorage.setItem(
       process.env.NEXT_PUBLIC_KEY_PAIR_SESSION_STORAGE_KEY as string,
       ephemeralKeyPair.export().privateKey
     );
