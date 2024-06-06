@@ -14,7 +14,6 @@ const HomeHeader = dynamic(
 
 const MainLayout = () => {
   const pathname = usePathname().replace("/", "");
-  console.log(pathname);
   return (
     <>
       {pathname != "" && pathname == "home" && (

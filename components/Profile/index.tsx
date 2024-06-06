@@ -66,7 +66,7 @@ const ProfileContainer = (props: TProfileContainerProps) => {
             />
           </div>
           {/* <TabInfoProfile /> */}
-          <Strategy />;
+          <Strategy />
         </div>
       ) : (
         <div>

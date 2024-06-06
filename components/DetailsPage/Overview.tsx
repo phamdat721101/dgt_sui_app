@@ -378,13 +378,13 @@ export default function Overview() {
           </div>
 
           <p className="text-base leading-[150%] -tracking-[0.32px] text-gray-800 text-justify">
-            The Avalanche Social Index (aHYPE) tracks the performance of a
+            The DigiTrust Index (DGT) tracks the performance of a
             portfolio composed of the most socially active cryptocurrencies in
             the last 30 days. This portfolio is weighted according to the social
             score made available by Heimdall and the technology provided by the
             Kassandra Protocol. The portfolio is a SIP (Smart Index Pool) and is
             rebalanced by arbitrageurs just like a usual liquidity pool. The
-            index is accompanied by its own token SaHYPE, allowing investors to
+            index is accompanied by its own token DGT, allowing investors to
             buy the index by purchasing the token, just like an ETF.
           </p>
         </div>

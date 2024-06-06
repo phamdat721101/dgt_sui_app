@@ -94,7 +94,7 @@ export default function Header() {
         </Link>
       </div>
       {/* Navigations */}
-      <nav className="hidden lg:block">
+      {/*<nav className="hidden lg:block">
         <ul className="flex items-center gap-x-10">
           {navLinks.map((item) => (
             <li key={item.id}>
@@ -108,7 +108,7 @@ export default function Header() {
             </li>
           ))}
         </ul>
-      </nav>
+      </nav>*/}
       {/* Button */}
       <a className="block" href="/home">
         <Button>Launch App</Button>

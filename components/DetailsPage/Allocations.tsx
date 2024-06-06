@@ -63,7 +63,7 @@ const Allocations = () => {
                   <div className="flex gap-3 justify-center">
                     <Image width={24} height={24} src={usdc} alt="usdc" />
                     <span className="font-semibold text-[#90A3BF] leading-normal">
-                      USDC
+                      AAVE
                     </span>
                   </div>
                   <div className="font-semibold text-[32px] leading-normal tracking-tighter">
@@ -75,7 +75,7 @@ const Allocations = () => {
                 <div className="flex gap-3">
                   <Image width={24} height={24} src={usdc} alt="usdc" />
                   <span className="font-semibold text-[#90A3BF] leading-normal">
-                    USDC
+                    AAVE
                   </span>
                 </div>
                 <h3 className="pt-4 pb-3 font-normal text-gray-800 leading-7">

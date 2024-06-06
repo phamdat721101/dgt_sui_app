@@ -95,7 +95,7 @@ export default function Info() {
             </svg>
             <div className="text-4xl font-semibold leading-10 -tracking-[0.84px] text-gray-800">
               {/* {dataDetails && <p>{dataDetails.vault_name}</p>} */}
-              DigiTrust Package
+              DigiTrust Vault
             </div>
           </div>
           {/* <div className="flex items-center gap-x-3">

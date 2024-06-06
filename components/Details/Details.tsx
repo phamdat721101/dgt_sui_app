@@ -206,7 +206,7 @@ export default function Details() {
                             </svg>
                             <div className="text-4xl font-semibold leading-10 -tracking-[0.84px] text-gray-800">
                                 {/* {dataDetails && <p>{dataDetails.vault_name}</p>} */}
-                                $aHYPE
+                                DigiTrust Vault
                             </div>
                         </div>
                         <div className="flex items-center gap-x-3">
@@ -216,17 +216,17 @@ export default function Details() {
                                     className="flex rounded-full border border-gray-45 bg-blue-600 px-[10px] py-1 text-base font-medium leading-6 text-white shadow-currency"
                                 >
                                     <span>{data.currency}</span>
-                                    aHYPE
+                                    DGT
                                 </div>
                             ))}
                             {/* <div className="flex rounded-full border border-gray-45 bg-blue-600 px-[10px] py-1 text-base font-medium leading-6 text-white shadow-currency">
                                 {dataDetails && (
                                     <span>{dataDetails.currency}</span>
                                 )}
-                                aHYPE
+                                DGT
                             </div> */}
                             <div className="rounded-full border border-blue-600 bg-indigo-100 px-[10px] py-1 text-base font-medium leading-6 text-gray-800 shadow-elevation">
-                                Live on Avalanche
+                                DigiTrust Vault
                             </div>
                         </div>
 
@@ -1268,7 +1268,7 @@ export default function Details() {
                         </div>
 
                         <p className="text-base leading-[150%] -tracking-[0.32px] text-gray-800">
-                            The Avalanche Social Index (aHYPE) tracks the
+                            The DigiTrust Package (DGT) tracks the
                             performance of a portfolio composed of the most
                             socially active cryptocurrencies in the last 30
                             days. This portfolio is weighted according to the
@@ -1277,7 +1277,7 @@ export default function Details() {
                             portfolio is a SIP (Smart Index Pool) and is
                             rebalanced by arbitrageurs just like a usual
                             liquidity pool. The index is accompanied by its own
-                            token SaHYPE, allowing investors to buy the index by
+                            token DGT, allowing investors to buy the index by
                             purchasing the token, just like an ETF.
                         </p>
                     </div>

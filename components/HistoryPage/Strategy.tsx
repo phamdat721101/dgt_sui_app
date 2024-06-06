@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { useFormatter } from "next-intl";
 import MyInput from "../DigiTrust/DateInput";
 
 interface Data {
@@ -14,6 +14,10 @@ interface Data {
 }
 
 const Strategy = () => {
+  const format = useFormatter();
+  const dateTimeFormatter = new Intl.DateTimeFormat("en-US", {
+    dateStyle: "long",
+  });
   let datas: Data[];
 
   // Call Api
@@ -143,7 +147,7 @@ const Strategy = () => {
               datas.map((data: any) => (
                 <tr className="border-b border-b-[#C3D4E9] text-sm sm:text-base text-gray-800 font-medium leading-normal">
                   <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
-                    {data.date}
+                    {dateTimeFormatter.format(new Date(data.date))}
                   </td>
                   <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
                     {data.manager}
@@ -152,17 +156,17 @@ const Strategy = () => {
                     {data.package_type}
                   </td>
                   <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
-                    {data.amount}
+                    ${format.number(data.amount)}
                   </td>
                   <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
-                    {data.price}
+                    ${format.number(data.price)}
                   </td>
 
                   <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
-                    {data.expected_return}
+                    ${format.number(data.expected_return)}
                   </td>
                   <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
-                    {data.expire_date}
+                    {dateTimeFormatter.format(new Date(data.expire_date))}
                   </td>
                 </tr>
               ))

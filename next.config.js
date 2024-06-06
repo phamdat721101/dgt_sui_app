@@ -14,7 +14,13 @@ const nextConfig = {
         protocol: "https",
         hostname: "dd.dexscreener.com",
         port: "",
-        pathname: "/ds-data/tokens/**",
+        pathname: "/ds-data/tokens/sui/**",
+      },
+      {
+        protocol: "https",
+        hostname: "dd.dexscreener.com",
+        port: "",
+        pathname: "/ds-data/tokens/ton/**",
       },
       {
         protocol: "https",
