@@ -97,7 +97,7 @@ export default function Info() {
             </svg>
             <div className="text-4xl font-semibold leading-10 -tracking-[0.84px] text-gray-800">
               {/* {dataDetails && <p>{dataDetails.vault_name}</p>} */}
-              $aHYPE
+              DigiTrust Vault
             </div>
           </div>
           {/* <div className="flex items-center gap-x-3">
@@ -107,14 +107,14 @@ export default function Info() {
                 className="flex rounded-full border border-gray-45 bg-blue-600 px-[10px] py-1 text-base font-medium leading-6 text-white shadow-currency"
               >
                 <span>{data.currency}</span>
-                aHYPE
+                DGT
               </div>
             ))} */}
           {/* <div className="flex rounded-full border border-gray-45 bg-blue-600 px-[10px] py-1 text-base font-medium leading-6 text-white shadow-currency">
               {dataDetails && (
                   <span>{dataDetails.currency}</span>
               )}
-              aHYPE
+              DGT
           </div> */}
           {/* <div className="rounded-full border border-blue-600 bg-indigo-100 px-[10px] py-1 text-base font-medium leading-6 text-gray-800 shadow-elevation">
               Live on Avalanche
