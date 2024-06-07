@@ -40,20 +40,80 @@ export default function Overview() {
   useEffect(() => {
     const fetchData = async () => {
       // Api Default
-      const response = await fetch(
-        "https://dgt-dev.vercel.app/v1/vault_detail?vault_id=dgt1"
-      );
-      const data = await response.json();
+      // const response = await fetch(
+      //   "https://dgt-dev.vercel.app/v1/vault_detail?vault_id=dgt1"
+      // );
+      // const data = await response.json();
+
+      const data = [
+        {
+            "vault_id": 1,
+            "vault_name": "dgt_info_1",
+            "manager": "dgt_manager",
+            "logo":"http://localhost:3000/image/logo",
+            "vault_desc": "",
+            "vault_adr": "0x7DF4d143f34203Bd670DB5162fA79b735ef1cE95",
+            "return": "18",
+            "assets":["CETUS", "SUI", "SUILIEN"],
+            "created_at":1231,
+            "updated_at":12312,
+            "tvl": 2000, 
+            "volume": 15,
+            "price": 24,
+            "currency":"$"
+        }
+      ]
 
       setDatas(data);
     };
 
     const fetchDataDetails = async () => {
       // Api Default
-      const response = await fetch(
-        "https://dgt-dev.vercel.app/v1/vault_allocation?vault_id=dgt1"
-      );
-      const data = await response.json();
+      // const response = await fetch(
+      //   "https://dgt-dev.vercel.app/v1/vault_allocation?vault_id=1"
+      // );
+      // const data = await response.json();
+      const data = {
+        "price": "1348$",
+        "vault_id":"finX",
+        "vault_name":"High risk",
+        "vault_type":1,
+        "holding_value":"368000$",
+        "amount_raised":"45%",
+        "package":"dgt_low_risk",
+        "assets":[
+            {
+                "asset": "NOT coin",
+                "symbol": "NOT",
+                "contract": "0x138234234",
+                "chain": "btc layer-2",
+                "invest_amount":10, 
+                "weight":"67.4%", 
+                "holding":"1348$",
+                "price_change":{
+                    "24h":"5.5",                
+                },
+                "dgt_score": 8,
+                "status":true,
+                "logo_url":"https://dd.dexscreener.com/ds-data/tokens/ton/eqavlwfdxgf2lxm67y4yzc17wykd9a0guwpkms1gosm__not.png"
+            },
+            {
+                "asset": "Resistance DOG",
+                "symbol": "REDO",
+                "contract": "0x138234234",
+                "chain": "btc layer-2",
+                "invest_amount":90, 
+                "weight":"32.6%", 
+                "holding":"652$",
+                "price_change":{
+                    "24h":"6.5",                
+                },
+                "dgt_score": 8,
+                "status":true,
+                "logo_url":"https://dd.dexscreener.com/ds-data/tokens/ton/eqbz_cafpydr5kuts0anxh0ztdhkpezonmlja2sngllm4cko.png"
+            }
+        ]
+      }
 
       setDataDetails(data);
     };
