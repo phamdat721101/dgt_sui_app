@@ -98,9 +98,13 @@ async function generateAPTAddress(account_id: string) {
 }
 
 async function getBalance(_email: string) {
-  const url = `https://dgt-dev.vercel.app/v1/user_balance?email=${_email}`;
-  const resApt = await fetch(url);
-  const balance = await resApt.json();
+  // const url = `https://dgt-dev.vercel.app/v1/user_balance?email=${_email}`;
+  // const resApt = await fetch(url);
+  // const balance = await resApt.json();
+  const balance = {
+    "user_email": _email,
+    "amount":100,
+  };
 
   return { balance };
 }

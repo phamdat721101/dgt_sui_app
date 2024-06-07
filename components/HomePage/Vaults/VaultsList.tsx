@@ -257,12 +257,64 @@ export default function VaultsList() {
       setData(data);
       setIsLoading(false);
     };
-
-    fetchDataDetails();
+    
+    setIsLoading(false);
+    // fetchDataDetails();
   }, []);
   // End call api
 
-  vaultsList = data || [];
+  vaultsList = data || [
+      {
+          "vault_id":0,
+          "symbol":"N-DGT",
+          "asset":[
+              "https://dd.dexscreener.com/ds-data/tokens/sui/0x76cb819b01abed502bee8a702b4c2d547532c12f25001c9dea795a5e631c26f1::fud::fud.png"
+          ],
+          "vault_name":"Native vault",
+          "price":"9$",
+          "return":24,
+          "tvl":2000,
+          "monthly_return":"24.32%",
+          "daily_return":"1.8%",
+          "manager":"Dgt invest",
+          "des":"DigiTrust ecosystem",
+          "timestamp":2424,
+          "chain":"EVM",
+          "url":"https://dd.dexscreener.com/ds-data/tokens/sui/0x76cb819b01abed502bee8a702b4c2d547532c12f25001c9dea795a5e631c26f1::fud::fud.png"
+      },
+      {
+          "url":"https://xkqpczltzicnmbqvihbc.supabase.co/storage/v1/object/public/logos/okb_887.png",
+          "vault_id":1,
+          "vault_name":"Meme vault",
+          "symbol":"M-DGT",
+          "price":"18$",
+          "return":24,
+          "tvl":1809,
+          "monthly_return":"18%",
+          "daily_return":"1.8%",
+          "manager":"Dgt invest",
+          "des":"DigiTrust ecosystem",
+          "timestamp":2424,
+          "chain":"EVM",
+          // "url":"https://dd.dexscreener.com/ds-data/tokens/sui/0x76cb819b01abed502bee8a702b4c2d547532c12f25001c9dea795a5e631c26f1::fud::fud.png"
+      },
+      {
+          "url":"https://xkqpczltzicnmbqvihbc.supabase.co/storage/v1/object/public/logos/ton_7768.png",
+          "vault_id":2,
+          "vault_name":"High risk",
+          "symbol":"H-DGT",
+          "price":"27$",
+          "return":24,
+          "tvl":639,
+          "monthly_return":"9.36%",
+          "daily_return":"1.8%",
+          "manager":"Dgt invest",
+          "des":"DigiTrust ecosystem",
+          "timestamp":2424,
+          "chain":"EVM",
+          // "url":"https://dd.dexscreener.com/ds-data/tokens/sui/0x76cb819b01abed502bee8a702b4c2d547532c12f25001c9dea795a5e631c26f1::fud::fud.png"
+      }
+    ];
 
   const mergedData = vaults.map((obj1, index) => {
     return { ...obj1, ...vaultsList[index] };
