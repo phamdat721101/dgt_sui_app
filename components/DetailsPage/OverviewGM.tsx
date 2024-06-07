@@ -41,7 +41,7 @@ export default function Overview() {
     const fetchData = async () => {
       // Api Default
       const response = await fetch(
-        "https://dgt-dev.vercel.app/v1/vault_detail?vault_id=dgt1&fbclid=IwAR1Z7yE9yIjhcbPds_6_CSr-R487BHzqDiy4SufmyRmozuLmXnN2SJp_S94"
+        "https://dgt-dev.vercel.app/v1/vault_detail?vault_id=dgt1"
       );
       const data = await response.json();
 
@@ -75,11 +75,6 @@ export default function Overview() {
 
   return (
     <div className="mt-11 ">
-      {/* <div>
-        <h1 className="sm:hidden pb-5 font-semibold text-[#2563EB] text-2xl sm:text-3xl sm:text-[36px] sm:leading-[54px] text-center">
-          Deposit/ Withdraw
-        </h1>
-      </div> */}
       <div className="sm:hidden w-full mb-10 py-1 sm:py-0 sm:w-[30%] h-[297px] rounded-[10px]">
         <DepositWithdraw />
       </div>
@@ -159,16 +154,16 @@ export default function Overview() {
             <table className="bg-white min-w-full border border-[#C3D4E9]">
               <thead>
                 <tr className="">
-                  <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                  <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-nowrap text-left text-base leading-4 text-gray-800 tracking-wider">
                     Asset
                   </th>
-                  <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                  <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-nowrap text-left text-base leading-4 text-gray-800 tracking-wider">
                     Weight
                   </th>
-                  <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                  <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-nowrap text-left text-base leading-4 text-gray-800 tracking-wider">
                     Holding
                   </th>
-                  <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+                  <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-nowrap text-left text-base leading-4 text-gray-800 tracking-wider">
                     Price 24h
                   </th>
                 </tr>
@@ -176,7 +171,7 @@ export default function Overview() {
               <tbody>
                 {assets.map((asset) => (
                   <tr className="border-b border-b-[#C3D4E9] text-sm sm:text-base text-gray-800 font-medium leading-normal">
-                    <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    <td className="px-6 py-6 whitespace-no-wrap text-nowrap border-b border-b-[#C3D4E9]">
                       <div className="flex items-center ">
                         <Image
                           src={asset.logo_url}
@@ -187,13 +182,13 @@ export default function Overview() {
                         <span className="ml-2 sm:ml-4">{asset.symbol}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    <td className="px-6 py-6 whitespace-no-wrap text-nowrap border-b border-b-[#C3D4E9]">
                       {asset.weight}
                     </td>
-                    <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    <td className="px-6 py-6 whitespace-no-wrap text-nowrap border-b border-b-[#C3D4E9]">
                       ${format.number(+asset.holding.slice(0, -1))}
                     </td>
-                    <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                    <td className="px-6 py-6 whitespace-no-wrap text-nowrap border-b border-b-[#C3D4E9]">
                       <div className="text-green-500">
                         {format.number(+asset.price_change["24h"])}%
                       </div>

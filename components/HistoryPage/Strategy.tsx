@@ -119,61 +119,61 @@ const Strategy = () => {
         <table className="bg-white min-w-full border border-[#C3D4E9]">
           <thead>
             <tr>
-              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-nowrap text-left text-base leading-4 text-gray-800 tracking-wider">
                 Date
               </th>
-              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-nowrap text-left text-base leading-4 text-gray-800 tracking-wider">
                 Manager
               </th>
-              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-nowrap text-left text-base leading-4 text-gray-800 tracking-wider">
                 Package Type
               </th>
-              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-nowrap text-left text-base leading-4 text-gray-800 tracking-wider">
                 Amount
               </th>
-              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-nowrap text-left text-base leading-4 text-gray-800 tracking-wider">
                 Price
               </th>
-              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-nowrap text-left text-base leading-4 text-gray-800 tracking-wider">
                 Expected Return
               </th>
-              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-left text-base leading-4 text-gray-800 tracking-wider">
+              <th className="px-6 py-6 border-b border-b-[#C3D4E9] text-nowrap text-left text-base leading-4 text-gray-800 tracking-wider">
                 Expiration Date
               </th>
             </tr>
           </thead>
-          <tbody className="text-sm sm:text-base	text-gray-800 tracking-tight">
+          <tbody className="text-sm sm:text-base text-gray-800 tracking-tight">
             {datas.length != 0 ? (
               datas.map((data: any) => (
                 <tr className="border-b border-b-[#C3D4E9] text-sm sm:text-base text-gray-800 font-medium leading-normal">
-                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                  <td className="px-6 py-6 whitespace-no-wrap text-nowrap border-b border-b-[#C3D4E9]">
                     {dateTimeFormatter.format(new Date(data.date))}
                   </td>
-                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                  <td className="px-6 py-6 whitespace-no-wrap text-nowrap border-b border-b-[#C3D4E9]">
                     {data.manager}
                   </td>
-                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                  <td className="px-6 py-6 whitespace-no-wrap text-nowrap border-b border-b-[#C3D4E9]">
                     {data.package_type}
                   </td>
-                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                  <td className="px-6 py-6 whitespace-no-wrap text-nowrap border-b border-b-[#C3D4E9]">
                     ${format.number(data.amount)}
                   </td>
-                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                  <td className="px-6 py-6 whitespace-no-wrap text-nowrap border-b border-b-[#C3D4E9]">
                     ${format.number(data.price)}
                   </td>
 
-                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                  <td className="px-6 py-6 whitespace-no-wrap text-nowrap border-b border-b-[#C3D4E9]">
                     ${format.number(data.expected_return)}
                   </td>
-                  <td className="px-6 py-6 whitespace-no-wrap border-b border-b-[#C3D4E9]">
+                  <td className="px-6 py-6 whitespace-no-wrap text-nowrap border-b border-b-[#C3D4E9]">
                     {dateTimeFormatter.format(new Date(data.expire_date))}
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={9} className="text-center py-5">
-                  No history
+                <td colSpan={9} className="text-center py-5 animate-pulse">
+                  Loading...
                 </td>
               </tr>
             )}

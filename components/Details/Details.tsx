@@ -226,7 +226,7 @@ export default function Details() {
                                 DGT
                             </div> */}
                             <div className="rounded-full border border-blue-600 bg-indigo-100 px-[10px] py-1 text-base font-medium leading-6 text-gray-800 shadow-elevation">
-                                DigiTrust Vault
+                                Live on Avalanche
                             </div>
                         </div>
 
@@ -1268,7 +1268,7 @@ export default function Details() {
                         </div>
 
                         <p className="text-base leading-[150%] -tracking-[0.32px] text-gray-800">
-                            The DigiTrust Package (DGT) tracks the
+                            The DigiTrust Index (DGT) tracks the
                             performance of a portfolio composed of the most
                             socially active cryptocurrencies in the last 30
                             days. This portfolio is weighted according to the

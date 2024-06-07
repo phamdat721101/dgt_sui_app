@@ -4,7 +4,7 @@ import { useOnborda } from "onborda";
 import { Fragment, useEffect, useState, useMemo } from "react";
 import SUIWalletIcon from "@/icons/SUIWalletIcon";
 import KlayIcon from "@/icons/KlayIcon";
-
+import { useFormatter } from "next-intl";
 import AlgorandIcon from "@/icons/AlgorandIcon";
 import ArbitrumIcon from "@/icons/ArbitrumIcon";
 import Down from "@/icons/Down";
@@ -124,6 +124,7 @@ async function postData(url = "", data = {}) {
 }
 
 export default function Header(props: { isHome: boolean }) {
+  const format = useFormatter();
   const { startOnborda } = useOnborda();
   const handleStartOnborda = () => {
     startOnborda();
@@ -178,7 +179,7 @@ export default function Header(props: { isHome: boolean }) {
   const logOutWallet = () => {
     setEmail("");
     window.location.hash = "";
-    window.location.href = window.location.origin+"/home";
+    window.location.href = window.location.origin + "/home";
   };
 
   const beginZkLogin = async () => {
@@ -298,7 +299,7 @@ export default function Header(props: { isHome: boolean }) {
                   duration: 5000,
                 }
               );
-              startOnborda();
+              //startOnborda();
             });
           }
         } else {
@@ -315,36 +316,35 @@ export default function Header(props: { isHome: boolean }) {
     window.localStorage.setItem("userEmail", email);
     async function updateBalance() {
       const { balance } = await getBalance(email);
-      if(balance != null)
+      if (balance != null)
         setPoint(balance?.amount);
     }
-    
-    if(email!=''){
+
+    if (email != '') {
       updateBalance();
     }
   }, [email]);
 
-  const classes = `flex items-center justify-between px-[35px] py-[18px] text-sm xl:px-[120px] xl:text-base ${
-    props.isHome ? "bg-white" : "bg-blue-600 text-white"
-  }`;
+  const classes = `flex items-center justify-between px-[35px] py-[18px] text-sm xl:px-[120px] xl:text-base ${props.isHome ? "bg-white" : "bg-blue-600 text-white"
+    }`;
 
   return (
     <Fragment>
-      {email=='' && <div className="bg-blue-400 text-white flex items-center justify-center py-2">
-            <Image
-                src={Hot}
-                alt="hot logo"
-                height={30}
-                className="animate-pulse"
-              />
-              <p>Login now and get a valuable gift worth 100 DGT!</p>
-              <Image
-                src={Hot}
-                alt="hot logo"
-                height={30}
-                className="animate-pulse"
-              />
-        </div>
+      {email == '' && <div className="bg-blue-400 text-white flex items-center justify-center py-2">
+        <Image
+          src={Hot}
+          alt="hot logo"
+          height={30}
+          className="animate-pulse"
+        />
+        <p>Login now and get a valuable gift worth 100 DGT!</p>
+        <Image
+          src={Hot}
+          alt="hot logo"
+          height={30}
+          className="animate-pulse"
+        />
+      </div>
       }
       <header className={classes}>
         {/* Logo */}
@@ -419,9 +419,9 @@ export default function Header(props: { isHome: boolean }) {
         ) : (
           <>
             <div className="hidden sm:block">
-                <div className="flex flex-1 ml-5 justify-end">
-                    <div className={props.isHome ?"flex items-center gap-x-[10px] rounded-lg bg-blue-600 px-6 py-4 text-white": "flex items-center gap-x-[10px] rounded-lg bg-white px-6 py-4 text-blue-600"}>
-                        <span>
+              <div className="flex flex-1 ml-5 justify-end">
+                <div className={props.isHome ? "flex items-center gap-x-[10px] rounded-lg bg-blue-600 px-6 py-4 text-white" : "flex items-center gap-x-[10px] rounded-lg bg-white px-6 py-4 text-blue-600"}>
+                  {/* <span>
                             <svg
                                 width="20"
                                 height="20"
@@ -441,203 +441,203 @@ export default function Header(props: { isHome: boolean }) {
                                     fill={props.isHome?"white": "#2563EB"}
                                 />
                             </svg>
-                        </span>
+                        </span> */}
 
-                        {
-                          <button
-                            className=" bg-white rounded-md"
-                          >
-                            <div className={props.isHome?"bg-blue-600 text-white":"bg-white text-blue-600"}>
-                              <Link className="ml-2" href={"/profile"}>Profile</Link>
-                              <b className="ml-2">|</b>
-                              <button className="astext ml-2" onClick={logOutWallet}>Log out</button>
-                            </div>
-                            <div className="grid grid-row-auto grid-flow-col mx-1 my-1">
-                              <GoogleIcon />
-                              <span className="text-blue-600 font-bold mx-2">
-                                <div>
-                                  {email}
-                                </div>
-                                <div className="bg-gray-400 text-white">
-                                  {point} DGT
-                                </div>
-                              </span>
-                            </div>
-                           
-                          </button>
-                        }
-                            <div>
-                            <Dropdown>
-                              <DropdownTrigger>
-                                <div className="flex items-center rounded-lg bg-white px-0 text-blue-600">
-                                  {selectedKeys}
-                                </div>
-                              </DropdownTrigger>
-                              <DropdownMenu
-                                aria-label="Single selection example"
-                                variant="flat"
-                                disallowEmptySelection
-                                selectionMode="single"
-                              >
-                                <DropdownItem
-                                  key="suidevnet"
-                                  startContent={<SUIWallet className={iconClasses} />}
-                                  onClick={() =>
-                                    setSelectedKeys(
-                                      <>
-                                        <SUIWallet className={iconClasses} />
-                                        Sui
-                                        <Down />
-                                      </>
-                                    )
-                                  }
-                                >
-                                  Sui
-                                </DropdownItem>
-                                <DropdownItem
-                                  key="klaytntestnet"
-                                  startContent={<KlayIcon className={iconClasses} />}
-                                  onClick={() =>
-                                    setSelectedKeys(
-                                      <>
-                                        <KlayIcon className={iconClasses} />
-                                        Klaytn
-                                        <Down />
-                                      </>
-                                    )
-                                  }
-                                >
-                                  Klaytn
-                                </DropdownItem>
-                                <DropdownItem
-                                  key="aptos"
-                                  startContent={<AptosIcon className={iconClasses} />}
-                                  onClick={() =>
-                                    setSelectedKeys(
-                                      <>
-                                        <ArbitrumIcon className={iconClasses} />
-                                        Aptos
-                                        <Down />
-                                      </>
-                                    )
-                                  }
-                                >
-                                  Aptos
-                                </DropdownItem>
-                                <DropdownItem
-                                  key="algorandtestnet"
-                                  startContent={
-                                    <AlgorandIcon className={iconClasses} />
-                                  }
-                                  onClick={() =>
-                                    setSelectedKeys(
-                                      <>
-                                        <AlgorandIcon className={iconClasses} />
-                                        Algorand
-                                        <Down />
-                                      </>
-                                    )
-                                  }
-                                >
-                                  Algorand
-                                </DropdownItem>
-                              </DropdownMenu>
-                            </Dropdown>
-                        </div>
-                    </div>
-                </div>
-            </div>
-           <div className="sm:hidden object-fit">
-            <Dropdown
-              radius="sm"
-              classNames={{
-                content: "border-small border-divider bg-white py-0",
-              }}
-              
-            >
-              <DropdownTrigger>
-                <Button isIconOnly variant="bordered" className="capitalize" disableRipple>
-                  <MenuIcon
-                    bgColor={`${props.isHome ? "black" : "white"}`}
-                    iconColor={`${props.isHome ? "black" : "white"}`}
-                  />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Custom item styles"
-                className="p-3"
-                variant="light"
-                itemClasses={{
-                  base: [
-                    "rounded-md",
-                    "text-default-500",
-                    "transition-opacity",
-                    "data-[selectable=true]:focus:bg-default-50",
-                    "data-[pressed=true]:opacity-70",
-                    "data-[focus-visible=true]:ring-default-500",
-                  ],
-                }}
-              >
-                <DropdownSection hidden={email != ""}>
-                  <DropdownItem
-                    isReadOnly
-                    key="login"
-                    className="gap-2 opacity-100  bg-white"
-                  >
+                  {
                     <button
-                      className="grid grid-row-auto grid-flow-col hover:bg-gray-100"
-                      onClick={async () => beginZkLogin()}
+                      className=" bg-white rounded-md"
                     >
-                      <GoogleIcon />
-                      <span className="text-blue-200 font-bold mx-2">
-                        Google login
-                      </span>
-                    </button>
-                  </DropdownItem>
-                </DropdownSection>
-
-                <DropdownSection
-                  className="py-1"
-                  showDivider
-                  hidden={email == ""}
-                >
-                  <DropdownItem
-                    isReadOnly
-                    key="info"
-                    className="h-14 gap-2 opacity-100  bg-white py-2"
-                  >
-                    <div className="flex justify-center items-center gap-1">
-                      <span className="font-bold text-3xl">{point}</span>
-                      <span className="font-medium text-sm place-items-center">
-                        DGT
-                      </span>
-                    </div>
-
-                    <div className="grid grid-row-auto grid-flow-col">
-                      <GoogleIcon />
-                      <span className="text-blue-600 font-bold px-1">
-                        <div className="px-1">{email}</div>
-                      </span>
-                    </div>
-                  </DropdownItem>
-                </DropdownSection>
-                <DropdownSection
-                  className="py-2"
-                  showDivider
-                  hidden={email == ""}
-                >
-                  <DropdownItem key="MyMenu" className="hover:bg-white"> 
-                    <div className="grid grid-rows-2 grid-flow-col gap-2 place-items-center">
-                      <div className="row-span-3 hover:text-gray-100">
-                        <Link href={"/profile"}>
-                          <button>
-                            <p>
-                              <ProfileIcon />
-                            </p>
-                            <p className="text-blue-600">Profile</p>
-                          </button>
-                        </Link>
+                      <div className={props.isHome ? "bg-blue-600 text-white" : "bg-white text-blue-600"}>
+                        <Link className="ml-2" href={"/profile"}>Profile</Link>
+                        <b className="ml-2">|</b>
+                        <button className="astext ml-2" onClick={logOutWallet}>Log out</button>
                       </div>
+                      <div className="grid grid-row-auto grid-flow-col mx-1 my-1">
+                        <GoogleIcon />
+                        <span className="text-blue-600 font-bold mx-2">
+                          <div>
+                            {email}
+                          </div>
+                          <div className="text-gray-400">
+                            {format.number(point)} DGT
+                          </div>
+                        </span>
+                      </div>
+
+                    </button>
+                  }
+                  <div>
+                    <Dropdown>
+                      <DropdownTrigger>
+                        <div className="flex items-center rounded-lg bg-white px-0 text-blue-600">
+                          {selectedKeys}
+                        </div>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label="Single selection example"
+                        variant="flat"
+                        disallowEmptySelection
+                        selectionMode="single"
+                      >
+                        <DropdownItem
+                          key="suidevnet"
+                          startContent={<SUIWallet className={iconClasses} />}
+                          onClick={() =>
+                            setSelectedKeys(
+                              <>
+                                <SUIWallet className={iconClasses} />
+                                Sui
+                                <Down />
+                              </>
+                            )
+                          }
+                        >
+                          Sui
+                        </DropdownItem>
+                        <DropdownItem
+                          key="klaytntestnet"
+                          startContent={<KlayIcon className={iconClasses} />}
+                          onClick={() =>
+                            setSelectedKeys(
+                              <>
+                                <KlayIcon className={iconClasses} />
+                                Klaytn
+                                <Down />
+                              </>
+                            )
+                          }
+                        >
+                          Klaytn
+                        </DropdownItem>
+                        <DropdownItem
+                          key="aptos"
+                          startContent={<AptosIcon className={iconClasses} />}
+                          onClick={() =>
+                            setSelectedKeys(
+                              <>
+                                <ArbitrumIcon className={iconClasses} />
+                                Aptos
+                                <Down />
+                              </>
+                            )
+                          }
+                        >
+                          Aptos
+                        </DropdownItem>
+                        <DropdownItem
+                          key="algorandtestnet"
+                          startContent={
+                            <AlgorandIcon className={iconClasses} />
+                          }
+                          onClick={() =>
+                            setSelectedKeys(
+                              <>
+                                <AlgorandIcon className={iconClasses} />
+                                Algorand
+                                <Down />
+                              </>
+                            )
+                          }
+                        >
+                          Algorand
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="sm:hidden object-fit">
+              <Dropdown
+                radius="sm"
+                classNames={{
+                  content: "border-small border-divider bg-white py-0",
+                }}
+
+              >
+                <DropdownTrigger>
+                  <Button isIconOnly variant="bordered" className="capitalize" disableRipple>
+                    <MenuIcon
+                      bgColor={`${props.isHome ? "black" : "white"}`}
+                      iconColor={`${props.isHome ? "black" : "white"}`}
+                    />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  aria-label="Custom item styles"
+                  className="p-3"
+                  variant="light"
+                  itemClasses={{
+                    base: [
+                      "rounded-md",
+                      "text-default-500",
+                      "transition-opacity",
+                      "data-[selectable=true]:focus:bg-default-50",
+                      "data-[pressed=true]:opacity-70",
+                      "data-[focus-visible=true]:ring-default-500",
+                    ],
+                  }}
+                >
+                  <DropdownSection hidden={email != ""}>
+                    <DropdownItem
+                      isReadOnly
+                      key="login"
+                      className="gap-2 opacity-100  bg-white"
+                    >
+                      <button
+                        className="grid grid-row-auto grid-flow-col hover:bg-gray-100"
+                        onClick={async () => beginZkLogin()}
+                      >
+                        <GoogleIcon />
+                        <span className="text-blue-200 font-bold mx-2">
+                          Google login
+                        </span>
+                      </button>
+                    </DropdownItem>
+                  </DropdownSection>
+
+                  <DropdownSection
+                    className="py-1"
+                    showDivider
+                    hidden={email == ""}
+                  >
+                    <DropdownItem
+                      isReadOnly
+                      key="info"
+                      className="h-14 gap-2 opacity-100  bg-white py-2"
+                    >
+                      <div className="flex justify-center items-center gap-1">
+                        <span className="font-bold text-3xl">{format.number(point)}</span>
+                        <span className="font-medium text-sm place-items-center">
+                          DGT
+                        </span>
+                      </div>
+
+                      <div className="grid grid-row-auto grid-flow-col">
+                        <GoogleIcon />
+                        <span className="text-blue-600 font-bold px-1">
+                          <div className="px-1">{email}</div>
+                        </span>
+                      </div>
+                    </DropdownItem>
+                  </DropdownSection>
+                  <DropdownSection
+                    className="py-2"
+                    showDivider
+                    hidden={email == ""}
+                  >
+                    <DropdownItem key="MyMenu" className="hover:bg-white">
+                      {/* <div className="grid grid-rows-2 grid-flow-col gap-2 place-items-center">
+                        <div className="row-span-3 hover:text-gray-100">
+                          <Link href={"/profile"}>
+                            <button>
+                              <p>
+                                <ProfileIcon />
+                              </p>
+                              <p className="text-blue-600">Profile</p>
+                            </button>
+                          </Link>
+                        </div> */}
                       {/* <div className="row-span-3">
                         <Link href={"/history"}>
                           <button>
@@ -648,110 +648,126 @@ export default function Header(props: { isHome: boolean }) {
                           </button>
                         </Link>
                       </div> */}
-                      <div className="row-span-3 place-items-center hover:text-gray-100">
-                        <button onClick={async () => logOutWallet()}>
-                          <p className="ml-3.5">
-                            <ExitIcon />
-                          </p>
-                          <p className="text-blue-600">Log Out</p>
-                        </button>
-                      </div>
-                    </div>
-                  </DropdownItem>
-                </DropdownSection>
-
-                <DropdownSection showDivider hidden={email == ""}>
-                  <DropdownItem
-                    isReadOnly
-                    key="chain"
-                    className="cursor-default text-blue-600 font-bold"
-                    endContent={
-                      <Dropdown>
-                        <DropdownTrigger>
-                          <div className="flex items-center rounded-lg bg-white px-0 text-blue-600">
-                            {selectedKeys}
+                      {/* <div className="row-span-3 place-items-center hover:text-gray-100">
+                          <button onClick={async () => logOutWallet()}>
+                            <p className="ml-3.5">
+                              <ExitIcon />
+                            </p>
+                            <p className="text-blue-600">Log Out</p>
+                          </button>
+                        </div>
+                      </div> */}
+                      <div className="flex justify-center gap-x-10">
+                        <Link href={"/profile"}>
+                          <div className="flex-col">
+                            <ProfileIcon />
+                            <p className="text-blue-600">Profile</p>
                           </div>
-                        </DropdownTrigger>
-                        <DropdownMenu
-                          aria-label="Single selection example"
-                          variant="flat"
-                          disallowEmptySelection
-                          selectionMode="single"
-                        >
-                          <DropdownItem
-                            key="suidevnet"
-                            startContent={<SUIWallet className={iconClasses} />}
-                            onClick={() =>
-                              setSelectedKeys(
-                                <>
-                                  <SUIWallet className={iconClasses} />
-                                  Sui
-                                  <Down />
-                                </>
-                              )
-                            }
+                        </Link>
+                        <div>
+                          <button onClick={async () => logOutWallet()}>
+                            <p className="ml-3.5">
+                              <ExitIcon />
+                            </p>
+                            <p className="text-blue-600">Log Out</p>
+                          </button>
+                        </div>
+                      </div>
+                    </DropdownItem>
+                  </DropdownSection>
+
+                  <DropdownSection showDivider hidden={email == ""}>
+                    <DropdownItem
+                      isReadOnly
+                      key="chain"
+                      className="cursor-default text-blue-600 font-bold"
+                      endContent={
+                        <Dropdown>
+                          <DropdownTrigger>
+                            <div className="flex items-center rounded-lg bg-white px-0 text-blue-600">
+                              {selectedKeys}
+                            </div>
+                          </DropdownTrigger>
+                          <DropdownMenu
+                            aria-label="Single selection example"
+                            variant="flat"
+                            disallowEmptySelection
+                            selectionMode="single"
                           >
-                            Sui
-                          </DropdownItem>
-                          <DropdownItem
-                            key="klaytntestnet"
-                            startContent={<KlayIcon className={iconClasses} />}
-                            onClick={() =>
-                              setSelectedKeys(
-                                <>
-                                  <KlayIcon className={iconClasses} />
-                                  Klaytn
-                                  <Down />
-                                </>
-                              )
-                            }
-                          >
-                            Klaytn
-                          </DropdownItem>
-                          <DropdownItem
-                            key="aptos"
-                            startContent={<AptosIcon className={iconClasses} />}
-                            onClick={() =>
-                              setSelectedKeys(
-                                <>
-                                  <ArbitrumIcon className={iconClasses} />
-                                  Aptos
-                                  <Down />
-                                </>
-                              )
-                            }
-                          >
-                            Aptos
-                          </DropdownItem>
-                          <DropdownItem
-                            key="algorandtestnet"
-                            startContent={
-                              <AlgorandIcon className={iconClasses} />
-                            }
-                            onClick={() =>
-                              setSelectedKeys(
-                                <>
-                                  <AlgorandIcon className={iconClasses} />
-                                  Algorand
-                                  <Down />
-                                </>
-                              )
-                            }
-                          >
-                            Algorand
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
-                    }
-                  >
-                    Chain
-                  </DropdownItem>
-                </DropdownSection>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
+                            <DropdownItem
+                              key="suidevnet"
+                              startContent={<SUIWallet className={iconClasses} />}
+                              onClick={() =>
+                                setSelectedKeys(
+                                  <>
+                                    <SUIWallet className={iconClasses} />
+                                    Sui
+                                    <Down />
+                                  </>
+                                )
+                              }
+                            >
+                              Sui
+                            </DropdownItem>
+                            <DropdownItem
+                              key="klaytntestnet"
+                              startContent={<KlayIcon className={iconClasses} />}
+                              onClick={() =>
+                                setSelectedKeys(
+                                  <>
+                                    <KlayIcon className={iconClasses} />
+                                    Klaytn
+                                    <Down />
+                                  </>
+                                )
+                              }
+                            >
+                              Klaytn
+                            </DropdownItem>
+                            <DropdownItem
+                              key="aptos"
+                              startContent={<AptosIcon className={iconClasses} />}
+                              onClick={() =>
+                                setSelectedKeys(
+                                  <>
+                                    <ArbitrumIcon className={iconClasses} />
+                                    Aptos
+                                    <Down />
+                                  </>
+                                )
+                              }
+                            >
+                              Aptos
+                            </DropdownItem>
+                            <DropdownItem
+                              key="algorandtestnet"
+                              startContent={
+                                <AlgorandIcon className={iconClasses} />
+                              }
+                              onClick={() =>
+                                setSelectedKeys(
+                                  <>
+                                    <AlgorandIcon className={iconClasses} />
+                                    Algorand
+                                    <Down />
+                                  </>
+                                )
+                              }
+                            >
+                              Algorand
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </Dropdown>
+                      }
+                    >
+                      Chain
+                    </DropdownItem>
+                  </DropdownSection>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
           </>
-          
+
         )}
       </header>
     </Fragment>
