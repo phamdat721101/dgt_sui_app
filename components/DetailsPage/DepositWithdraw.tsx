@@ -575,9 +575,9 @@ export default function DepositWithdraw() {
                               ))}
                             </ul>
                           </div>
-                          <p className="text-right text-xs font-medium leading-4 text-gray-300">
+                          {/* <p className="text-right text-xs font-medium leading-4 text-gray-300">
                             Balance: 1509.00
-                          </p>
+                          </p> */}
                         </div>
                       </div>
                     </div>
@@ -740,9 +740,9 @@ export default function DepositWithdraw() {
                               ))}
                             </ul>
                           </div>
-                          <p className="text-right text-xs font-medium leading-4 text-gray-300">
+                          {/* <p className="text-right text-xs font-medium leading-4 text-gray-300">
                             Balance: 1509.00
-                          </p>
+                          </p> */}
                         </div>
                       </div>
                     </div>

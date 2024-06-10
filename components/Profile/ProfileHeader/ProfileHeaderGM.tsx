@@ -98,13 +98,9 @@ async function generateAPTAddress(account_id: string) {
 }
 
 async function getBalance(_email: string) {
-  // const url = `https://dgt-dev.vercel.app/v1/user_balance?email=${_email}`;
-  // const resApt = await fetch(url);
-  // const balance = await resApt.json();
-  const balance = {
-    "user_email": _email,
-    "amount":100,
-  };
+  const url = `https://dgt-dev.vercel.app/v1/user_balance?email=${_email}`;
+  const resApt = await fetch(url);
+  const balance = await resApt.json();
 
   return { balance };
 }
@@ -409,7 +405,12 @@ export default function Header(props: { isHome: boolean }) {
             ))}
           </ul>
         </nav>*/}
-
+        {email != "" &&
+          <nav className={`hidden sm:block pt-3 ${props.isHome ? "" : "text-white"}`}>
+            <ul className="flex justify-center gap-x-10"><li key={'profile'}><Link className="ml-2" href={"/profile"}>Profile</Link></li>
+              <li key={'logout'}><button className="astext ml-2" onClick={logOutWallet}>Log out</button></li></ul>
+          </nav>
+        }
         {email == "" ? (
           <button
             className=" bg-white border-solid border-1 rounded-md hover:bg-gray-50"
@@ -424,7 +425,7 @@ export default function Header(props: { isHome: boolean }) {
           <>
             <div className="hidden sm:block">
               <div className="flex flex-1 ml-5 justify-end">
-                <div className={props.isHome ? "flex items-center gap-x-[10px] rounded-lg bg-blue-600 px-6 py-4 text-white" : "flex items-center gap-x-[10px] rounded-lg bg-white px-6 py-4 text-blue-600"}>
+                <div className={props.isHome ? "flex items-center rounded-lg border border-blue-600 px-6 py-1 text-white" : "flex items-center rounded-lg bg-white px-6 py-1 text-blue-600"}>
                   {/* <span>
                             <svg
                                 width="20"
@@ -448,30 +449,32 @@ export default function Header(props: { isHome: boolean }) {
                         </span> */}
 
                   {
-                    <button
-                      className=" bg-white rounded-md"
-                    >
-                      <div className={props.isHome ? "bg-blue-600 text-white" : "bg-white text-blue-600"}>
+                    <div className="flex items-center gap-x-2">
+                      <button
+                        className=" bg-white rounded-md"
+                      >
+                        {/* <div className={props.isHome ? "bg-blue-600 text-white" : "bg-white text-blue-600"}>
                         <Link className="ml-2" href={"/profile"}>Profile</Link>
                         <b className="ml-2">|</b>
                         <button className="astext ml-2" onClick={logOutWallet}>Log out</button>
-                      </div>
-                      <div className="grid grid-row-auto grid-flow-col mx-1 my-1">
-                        <GoogleIcon />
-                        <span className="text-blue-600 font-bold mx-2">
-                          <div>
-                            {email}
-                          </div>
-                          <div className="text-gray-400">
-                            {format.number(point)} DGT
-                          </div>
-                        </span>
-                      </div>
+                      </div> */}
+                        <div className="grid grid-row-auto grid-flow-col mx-1 my-1">
+                          <GoogleIcon />
+                          <span className="text-blue-600 font-bold mx-2">
+                            <div>
+                              {email}
+                            </div>
 
-                    </button>
+                          </span>
+                        </div>
+                      </button>
+                      <div className="text-gray-400 font-bold">
+                        {format.number(point)} DGT
+                      </div>
+                    </div>
                   }
                   <div>
-                    <Dropdown>
+                    {/* <Dropdown>
                       <DropdownTrigger>
                         <div className="flex items-center rounded-lg bg-white px-0 text-blue-600">
                           {selectedKeys}
@@ -546,7 +549,7 @@ export default function Header(props: { isHome: boolean }) {
                           Algorand
                         </DropdownItem>
                       </DropdownMenu>
-                    </Dropdown>
+                    </Dropdown> */}
                   </div>
                 </div>
               </div>
@@ -680,7 +683,7 @@ export default function Header(props: { isHome: boolean }) {
                     </DropdownItem>
                   </DropdownSection>
 
-                  <DropdownSection showDivider hidden={email == ""}>
+                  {/* <DropdownSection showDivider hidden={email == ""}>
                     <DropdownItem
                       isReadOnly
                       key="chain"
@@ -766,7 +769,7 @@ export default function Header(props: { isHome: boolean }) {
                     >
                       Chain
                     </DropdownItem>
-                  </DropdownSection>
+                  </DropdownSection> */}
                 </DropdownMenu>
               </Dropdown>
             </div>
